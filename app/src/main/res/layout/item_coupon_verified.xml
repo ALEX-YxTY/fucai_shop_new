@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="65dp">
+
+    <TextView
+        android:id="@+id/tv_mobile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="13dp"
+        android:textSize="15sp"
+        android:textColor="@color/tv_black2"/>
+    <TextView
+        android:id="@+id/tv_type"
+        android:layout_alignTop="@id/tv_mobile"
+        android:layout_toRightOf="@id/tv_mobile"
+        android:layout_marginLeft="69dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textColor="@color/tv_black2"/>
+    <TextView
+        android:id="@+id/tv_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/tv_mobile"
+        android:layout_marginRight="17dp"
+        android:layout_alignParentRight="true"
+        android:text="1个"
+        android:textSize="15sp"
+        android:textColor="@color/tv_black2"/>
+    <TextView
+        android:id="@+id/tv_time"
+        android:textSize="12sp"
+        android:textColor="@color/bg_gray2"
+        android:layout_alignLeft="@id/tv_mobile"
+        android:layout_below="@id/tv_mobile"
+        android:layout_marginTop="6dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/bg_gray3"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>

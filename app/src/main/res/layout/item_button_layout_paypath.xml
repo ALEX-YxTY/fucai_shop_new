@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/payment_keyboard_selector"
+    android:gravity="center"
+    android:paddingBottom="@dimen/margin_30"
+    android:paddingTop="@dimen/margin_30" >
+
+    <ImageView
+        android:id="@+id/iv_pay_path"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+         />
+
+    <TextView
+        android:id="@+id/tv_pay_path"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_pay_path"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_5"
+        android:text="支付方式"
+        android:textColor="@color/deep_gray"
+        android:textSize="@dimen/tv_30" />
+
+</RelativeLayout>

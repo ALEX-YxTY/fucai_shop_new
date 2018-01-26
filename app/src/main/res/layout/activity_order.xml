@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/normal_bg"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/more_title_h"
+        android:background="@color/fucai_orange">
+
+        <Button
+            android:id="@+id/bt_return"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_20"
+            android:background="@color/fucai_orange"
+            android:drawableLeft="@drawable/btn_back_nor"
+            android:text="返回"
+            android:textColor="@color/fucai_orange" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="已抢订单"
+            android:textColor="@color/white"
+            android:textSize="@dimen/more_title_txt_sz" />
+        <TextView
+            android:id="@+id/tv_right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_26"
+            android:gravity="center"
+
+            android:textColor="@color/white"
+            android:textSize="@dimen/tv_36" />
+    </RelativeLayout>
+
+    <RadioGroup
+        android:id="@+id/rg_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#c0ffffff"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/rb_sign"
+            style="@style/my_tab2"
+            android:layout_weight="1"
+            android:background="@drawable/btn_radio_underline_selector"
+            android:paddingLeft="@dimen/margin_42"
+            android:paddingRight="@dimen/margin_42"
+            android:text="已抢订单"
+            android:textColor="@color/btn_title"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/rb_cannel"
+            style="@style/my_tab2"
+            android:layout_weight="1"
+            android:background="@drawable/btn_radio_underline_selector"
+            android:paddingLeft="@dimen/margin_42"
+            android:paddingRight="@dimen/margin_42"
+            android:textColor="@color/btn_title"
+            android:text="客户取消" />
+        <RadioButton
+            android:id="@+id/rb_done"
+            style="@style/my_tab2"
+            android:layout_weight="1"
+            android:background="@drawable/btn_radio_underline_selector"
+            android:paddingLeft="@dimen/margin_42"
+            android:paddingRight="@dimen/margin_42"
+            android:textColor="@color/btn_title"
+            android:text="完成订单" />
+    </RadioGroup>
+    <ListView
+        android:id="@+id/lv_order"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp" />
+</LinearLayout>

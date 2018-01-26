@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="com.milai.njfucai.activity.DebetListActivity">
+
+    <include layout="@layout/title_bar_back"  android:id="@+id/title_bar"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_type1"
+        android:layout_below="@id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/shape_debet_type_border"
+        android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/iv_icon1"
+            android:layout_width="59dp"
+            android:layout_height="59dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_shuangseqiu"/>
+
+        <RelativeLayout
+            android:layout_toRightOf="@id/iv_icon1"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="19dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            >
+
+            <TextView
+                android:id="@+id/tv_title1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="200dp"
+                android:textSize="18sp"
+                android:textColor="#1B1B1B"
+                android:text="双色球"/>
+            <TextView
+                android:layout_below="@id/tv_title1"
+                android:layout_marginTop="11dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="200dp"
+                android:textSize="12sp"
+                android:textColor="@color/tv_gray2"
+                android:text="奖池高达上亿元"/>
+        </RelativeLayout>
+
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/next"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_type2"
+        android:layout_below="@id/rl_type1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/shape_debet_type_border"
+        android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/iv_icon2"
+            android:layout_width="59dp"
+            android:layout_height="59dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_3d"/>
+
+        <RelativeLayout
+            android:layout_toRightOf="@id/iv_icon2"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="19dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            >
+
+            <TextView
+                android:id="@+id/tv_title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="200dp"
+                android:textSize="18sp"
+                android:textColor="#1B1B1B"
+                android:text="3D"/>
+            <TextView
+                android:layout_below="@id/tv_title2"
+                android:layout_marginTop="11dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="200dp"
+                android:textSize="12sp"
+                android:textColor="@color/tv_gray2"
+                android:text="猜对即中1040元"/>
+        </RelativeLayout>
+
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/next"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_type3"
+        android:layout_below="@id/rl_type2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/shape_debet_type_border"
+        android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/iv_icon3"
+            android:layout_width="59dp"
+            android:layout_height="59dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_qilecai"/>
+
+        <RelativeLayout
+            android:layout_toRightOf="@id/iv_icon3"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="19dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            >
+
+            <TextView
+                android:id="@+id/tv_title3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="200dp"
+                android:textSize="18sp"
+                android:textColor="#1B1B1B"
+                android:text="七乐彩"/>
+            <TextView
+                android:layout_below="@id/tv_title3"
+                android:layout_marginTop="11dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="200dp"
+                android:textSize="12sp"
+                android:textColor="@color/tv_gray2"
+                android:text="大奖等你来拿"/>
+        </RelativeLayout>
+
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/next"/>
+    </RelativeLayout>
+</RelativeLayout>
