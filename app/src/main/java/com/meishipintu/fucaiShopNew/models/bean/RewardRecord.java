@@ -13,7 +13,7 @@ public class RewardRecord implements Serializable {
 
     private int recharge_count;
     private double recharge_sum;
-    private List<RewardDetail> data;
+    private List<RewardData> data;
 
     public RewardRecord() {
     }
@@ -34,11 +34,11 @@ public class RewardRecord implements Serializable {
         this.recharge_sum = recharge_sum;
     }
 
-    public List<RewardDetail> getData() {
+    public List<RewardData> getData() {
         return data;
     }
 
-    public void setData(List<RewardDetail> data) {
+    public void setData(List<RewardData> data) {
         this.data = data;
     }
 

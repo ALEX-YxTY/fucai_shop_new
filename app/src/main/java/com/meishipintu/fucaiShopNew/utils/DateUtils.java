@@ -17,12 +17,12 @@ public class DateUtils {
         return date;
 
     }
+
     public static String DateUtilOne(Long timestamp) {
         String date = new java.text.SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date(timestamp));
         return date;
 
     }
-
 
     //获取起止时间
     //type=1 默认使用1日到下月1日  type=2 使用0时至次日0时
@@ -63,4 +63,15 @@ public class DateUtils {
         String format = simpleDateFormat.format(new Date(Long.parseLong(timeStamp)));
         return format;
     }
+
+    //显示时间格式为yyy-MM-dd HH:mm:ss
+    public static String formart4(String timeStamp) {
+        if (timeStamp == null) {
+            return "";
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String format = simpleDateFormat.format(new Date(Long.parseLong(timeStamp)*1000));
+        return format;
+    }
+
 }

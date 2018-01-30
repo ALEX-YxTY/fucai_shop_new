@@ -22,6 +22,7 @@ import com.meishipintu.fucaiShopNew.custom.CustomNumPickeDialog;
 import com.meishipintu.fucaiShopNew.models.NetCallBack;
 import com.meishipintu.fucaiShopNew.models.NetDataHelper;
 import com.meishipintu.fucaiShopNew.models.bean.RewardByMonth;
+import com.meishipintu.fucaiShopNew.models.bean.RewardData;
 import com.meishipintu.fucaiShopNew.models.bean.RewardDetail;
 import com.meishipintu.fucaiShopNew.models.bean.RewardRecord;
 import com.meishipintu.fucaiShopNew.utils.DensityUtils;
@@ -75,7 +76,7 @@ public class E0_RewardFrag extends Fragment implements CustomNumPickeDialog.OnOk
     private long startTime, endTime;
     private CustomDatePickeDialog datePickeDialog;
     private NetDataHelper netDataHelper;
-    private List<RewardDetail> dataList;
+    private List<RewardData> dataList;
     private RewardAdapter adapter;
 
 
@@ -163,10 +164,10 @@ public class E0_RewardFrag extends Fragment implements CustomNumPickeDialog.OnOk
             @Override
             public void onSuccess(RewardByMonth data) {
                 SpannableStringBuilder style = new SpannableStringBuilder("￥ "+ StringUtils.floatFormat(data.getMoney_this_month()));
-                style.setSpan(new AbsoluteSizeSpan(DensityUtils.dip2px(getActivity(),14)),0, 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                style.setSpan(new AbsoluteSizeSpan(DensityUtils.dip2px(14)),0, 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
                 tvThisMonthMoney.setText(style);
                 SpannableStringBuilder style2 = new SpannableStringBuilder("￥ "+ StringUtils.floatFormat(data.getMoney_last_month()));
-                style2.setSpan(new AbsoluteSizeSpan(DensityUtils.dip2px(getActivity(),14)),0, 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                style2.setSpan(new AbsoluteSizeSpan(DensityUtils.dip2px(14)),0, 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
                 tvLastMonthMoney.setText(style2);
             }
 

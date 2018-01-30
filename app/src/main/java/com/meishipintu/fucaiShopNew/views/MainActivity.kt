@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.content.ContextCompat
+import android.util.Log
 import android.view.KeyEvent
 import android.widget.RadioGroup
 import android.widget.TextView
@@ -47,6 +48,8 @@ class MainActivity : AppCompatActivity(),StartCameraListener {
     private var netDataHelper: NetDataHelper? = null
     private var mProgressDialog: ProgressDialog? = null
 
+    private var status:Int = 0  //标记审核状态 0-未通过 -1-未提交 1-已通过
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,15 +79,30 @@ class MainActivity : AppCompatActivity(),StartCameraListener {
         })
         //获取商户信息是否审核通过
         if (!Cookies.isInfoPass(Cookies.getShopId())) {
-            netDataHelper!!.isUserInfoChecked(Cookies.getShopId(), object : NetCallBack<Boolean> {
-                override fun onSuccess(data: Boolean?) {
-                    if (data!!) {
-                        Cookies.hasInfoPassed(Cookies.getShopId())
+            netDataHelper!!.isUserInfoChecked(Cookies.getShopId(), object : NetCallBack<Int> {
+                override fun onSuccess(data: Int?) {
+                    status = when (data) {
+                        1 -> {
+                            //审核已通过
+                            Cookies.hasInfoPassed(Cookies.getShopId())
+                            1
+                        }
+                        0 -> {
+                            //已提交未通过
+                            Cookies.hasCommitInfo(Cookies.getShopId())
+                            0
+                        }
+                        else -> -1
                     }
                 }
 
-                override fun onError(error: String) {}
+                override fun onError(error: String?) {
+                    Toast.makeText(this@MainActivity, error, Toast.LENGTH_SHORT).show()
+                }
+
             })
+        } else {
+            status = 1
         }
         setContentView(R.layout.activity_main)
 
@@ -119,13 +137,13 @@ class MainActivity : AppCompatActivity(),StartCameraListener {
                 StatusBarCompat.setStatusBarColor(this, 0x55000000)
             }
             "reward" -> {
-                //			if (Cookies.isInfoPass(Cookies.getShopId())) {
-                //审核已通过
-                fragment = E0_RewardFrag.createInstance()
-                //			} else {
-                //还未通过审核
-                //				fragment = F0_AddInfoFrag.createInstance();
-                //			}
+                fragment = if (status==1) {
+                    //审核已通过
+                    E0_RewardFrag.createInstance()
+                } else {
+                    //还未通过审核
+                    F0_AddInfoFrag.createInstance()
+                }
                 StatusBarCompat.setStatusBarColor(this, 0x55000000)
             }
         }

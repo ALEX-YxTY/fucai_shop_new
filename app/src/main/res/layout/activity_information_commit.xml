@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.milaifucai.assistant.ui.InfomationCommitActivity">
+    android:orientation="vertical">
 
     <!--headline-->
     <RelativeLayout
@@ -17,12 +14,13 @@
         <ImageView
             android:id="@+id/bt_return"
             android:layout_centerVertical="true"
-            android:layout_width="25dp"
+            android:layout_width="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_height="25dp"
             android:paddingRight="20dp"
             android:paddingTop="3dp"
             android:paddingBottom="3dp"
+            android:src="@drawable/icon_return"
             />
         <TextView
             android:layout_width="wrap_content"
@@ -129,7 +127,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true"
+            android:src="@drawable/icon_next"/>
         
         <ImageView
             android:id="@+id/iv_ID"
@@ -198,7 +197,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true"
+            android:src="@drawable/icon_next"/>
 
         <ImageView
             android:id="@+id/iv_front"
@@ -233,7 +233,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true"
+            android:src="@drawable/icon_next"/>
 
         <ImageView
             android:id="@+id/iv_back"

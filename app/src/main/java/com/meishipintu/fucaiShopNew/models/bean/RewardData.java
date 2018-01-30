@@ -8,7 +8,7 @@ import java.io.Serializable;
  * 主要功能：
  */
 
-public class RewardDetail implements Serializable {
+public class RewardData implements Serializable {
     private String mobile;
     private double make_money;  //盈利-应该已经乘以分成比例了
     private int pay_from;       //1-支付宝
@@ -34,7 +34,7 @@ public class RewardDetail implements Serializable {
         this.id = id;
     }
 
-    public RewardDetail() {
+    public RewardData() {
     }
 
     public String getMobile() {

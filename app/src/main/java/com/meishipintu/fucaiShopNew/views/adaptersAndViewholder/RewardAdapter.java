@@ -12,8 +12,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.meishipintu.fucaiShopNew.R;
+import com.meishipintu.fucaiShopNew.models.bean.RewardData;
 import com.meishipintu.fucaiShopNew.models.bean.RewardDetail;
 import com.meishipintu.fucaiShopNew.utils.DateUtils;
+import com.meishipintu.fucaiShopNew.utils.StringUtils;
 import com.meishipintu.fucaiShopNew.views.ActOrderDetail;
 
 import java.util.List;
@@ -31,11 +33,11 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardViewHolder> {
 
 
 
-    private List<RewardDetail> dataList;
+    private List<RewardData> dataList;
     private Context context;
     private RequestManager glide;
 
-    public RewardAdapter(List<RewardDetail> dataList, Context context) {
+    public RewardAdapter(List<RewardData> dataList, Context context) {
         this.dataList = dataList;
         this.context = context;
         this.glide = Glide.with(context);
@@ -48,10 +50,10 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardViewHolder> {
 
     @Override
     public void onBindViewHolder(RewardViewHolder holder, int position) {
-        final RewardDetail rewardDetail = dataList.get(position);
+        final RewardData rewardDetail = dataList.get(position);
         glide.load(rewardDetail.getType() == 1 ? R.drawable.icon_store : R.drawable.icon_rechargecenter).into(holder.iv);
-        holder.tvType.setText(rewardDetail.getType() == 1 ? "杂货铺" : "充值中心");
-        holder.tvTel.setText(rewardDetail.getMobile());
+        holder.tvType.setText("充值中心");
+        holder.tvTel.setText(StringUtils.specilaFormat(rewardDetail.getMobile()));
         holder.tvMoney.setText("+" + rewardDetail.getMake_money());
         holder.tvTime.setText(DateUtils.formart3(rewardDetail.getCreate_time()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {

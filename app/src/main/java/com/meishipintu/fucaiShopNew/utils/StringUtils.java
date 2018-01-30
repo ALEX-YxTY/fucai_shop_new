@@ -100,6 +100,11 @@ public class StringUtils {
         return mobile.substring(0, 2) + "****" + mobile.substring(7);
     }
 
+    //电话号码转换为 153 **** 1523 形式
+    public static String specilaFormat(String tel) {
+        return tel.substring(0, 3) + " **** " + tel.substring(7);
+    }
+
     public static final String REGEX_USER_NAME = ".{2,32}";
     public static final String REGEX_PASSWORD = "^[a-zA-Z0-9_\\.]{6,16}$";
     public static final String REGEX_EMAIL = "^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$";

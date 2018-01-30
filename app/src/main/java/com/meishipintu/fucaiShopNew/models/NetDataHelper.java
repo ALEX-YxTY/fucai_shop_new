@@ -568,21 +568,27 @@ public class NetDataHelper {
     }
 
     //获取用户信息审核情况
-    public void isUserInfoChecked(String shopId, final NetCallBack<Boolean> callBack) {
+    //返回 -1 尚未提交  0- 审核未通过  1- 审核通过
+    public void isUserInfoChecked(String shopId, final NetCallBack<Integer> callBack) {
         Map<String, String> map = new HashMap<>();
         map.put("shop_id", shopId);
-        NormalPostRequest request = new NormalPostRequest("http://fucai.milaipay.com/Home/Shop/addShopInfo",
+        NormalPostRequest request = new NormalPostRequest("http://fucai.milaipay.com/Home/Shop/queryShopAccountInfo",
                 new Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d("getCouponQuery", response.toString());
+                        Log.d("queryShopAccountInfo", response.toString());
                         int succeed;
                         try {
                             succeed = response.getInt("status");
                             if (succeed == 1) {
                                 JSONObject data = response.getJSONObject("data");
-                                int result = data.getInt("status");
-                                callBack.onSuccess(result == 1);
+                                if (!data.has("status")) {
+                                    //尚未提交
+                                    callBack.onSuccess(-1);
+                                } else {
+                                    callBack.onSuccess(data.getInt("status"));
+                                }
+
                             } else {
                                 callBack.onError(response.getString("msg"));
                                 return;
@@ -606,7 +612,7 @@ public class NetDataHelper {
     public void getRewardDetail(String shopId, String startTime, String endTime, int type, int page
             , final NetCallBack<RewardRecord> callBack){
         Map<String, String> map = new HashMap<>();
-        map.put("shop_id", "2677");
+        map.put("shop_id", shopId);
         map.put("start_time", startTime);
         map.put("end_time", endTime);
         map.put("type", type + "");

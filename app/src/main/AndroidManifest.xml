@@ -74,6 +74,16 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
+        <!--奖励详情页-->
+        <activity android:name=".views.ActOrderDetail"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!--信息提交页面页-->
+        <activity android:name=".views.InfomationCommitActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
         <!-- bugly required -->
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
@@ -99,7 +109,6 @@
         <activity
             android:name="me.iwf.photopicker.PhotoPagerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".views.ActOrderDetail"></activity>
     </application>
 
 </manifest>
