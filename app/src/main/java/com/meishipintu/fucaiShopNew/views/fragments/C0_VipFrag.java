@@ -31,7 +31,10 @@ import com.meishipintu.fucaiShopNew.models.NetDataHelper;
 import com.meishipintu.fucaiShopNew.models.PostGetTask;
 import com.meishipintu.fucaiShopNew.models.ServerUrlConstants;
 import com.meishipintu.fucaiShopNew.models.bean.Coupons;
+import com.meishipintu.fucaiShopNew.models.bean.XcxCouponDetail;
 import com.meishipintu.fucaiShopNew.utils.ConstUtil;
+import com.meishipintu.fucaiShopNew.utils.DialogUtils;
+import com.meishipintu.fucaiShopNew.utils.MyDialogUtil;
 import com.meishipintu.fucaiShopNew.utils.StringUtils;
 import com.meishipintu.fucaiShopNew.utils.TimeUtil;
 import com.meishipintu.fucaiShopNew.views.ActCaptureTicket;
@@ -78,7 +81,8 @@ public class C0_VipFrag extends Fragment {
 			ViewGroup container, Bundle savedInstanceState) {
 		View view=inflater.inflate(R.layout.frag_vip,null);
 
-		rlCheckCoupon = view.findViewById(R.id.rl_check_coupon);
+        helper = NetDataHelper.getInstance(getContext());
+        rlCheckCoupon = view.findViewById(R.id.rl_check_coupon);
 		rlCheckCoupon.setOnClickListener(mClickListener);
 		mButtonVerifyTelOrSn = view.findViewById(R.id.bt_verify);
 		mButtonVerifyTelOrSn.setOnClickListener(mClickListener);
@@ -176,11 +180,12 @@ public class C0_VipFrag extends Fragment {
 						return;
 					}
 					String tel = getTel().replace(" ", "");// 直接从vip进入的方式，此字符串有可能为Sn
-					if (tel.length() == 12 && mIsFrom != 1)// 等于1的情况下不能验证sn
+					if (tel.startsWith("xcx")) {
+						verifySnFromXcx(tel);
+					}else if (tel.length() == 12 && mIsFrom != 1)// 等于1的情况下不能验证sn
 					{
 						verifySnFromNet(tel);
-					}
-					else {
+					} else {
 						selfToastShow("请输入正确券号");
 					}
 					break;
@@ -200,6 +205,50 @@ public class C0_VipFrag extends Fragment {
 			}
 		}
 	};
+
+	//验证来自小程序的券号
+	private void verifySnFromXcx(final String tel) {
+		helper.getXcxSnDetail(tel, Cookies.getShopId(), new NetCallBack<XcxCouponDetail>() {
+			@Override
+			public void onSuccess(XcxCouponDetail data) {
+				final MyDialogUtil dialogUtil = new MyDialogUtil(getActivity()) {
+					@Override
+					public void onClickPositive() {
+						String waiterId = Cookies.getWaiterId();
+						String waiterName = Cookies.getNickName();
+						if (Cookies.isMaster()) {
+							waiterId = "0";
+							waiterName = "店主";
+						}
+						helper.checkSnFromXcx(tel, Cookies.getShopId(), waiterId,waiterName,new NetCallBack<Boolean>() {
+							@Override
+							public void onSuccess(Boolean data) {
+								if (data) {
+                                    DialogUtils.showCustomDialog(getActivity(), "验证成功", null);
+                                }
+							}
+
+							@Override
+							public void onError(String error) {
+                                DialogUtils.showCustomDialog(getActivity(), error, null);
+                            }
+						});
+					}
+
+					@Override
+					public void onClickNagative() {
+					}
+				};
+				dialogUtil.showCustomTwoChoice("卡券："+data.getRedball_name()+", 是否验证？","现在验证","取消");
+			}
+
+			@Override
+			public void onError(String error) {
+				selfToastShow(error);
+			}
+		});
+
+	}
 
 	private void verifySnFromNet(final String couponSn) {
 		if (couponSn.length() == 0) {
@@ -436,25 +485,14 @@ public class C0_VipFrag extends Fragment {
 					break;
 			}
 
-		} else if (resultCode == 11) {		//resultCode == 11 路线任务扫码返回值
-			Log.i("test", "shopId:" + Cookies.getShopId());
-			String uid = data.getStringExtra("task");
-			String mid = Cookies.getShopId();
-			if (!StringUtils.isNullOrEmpty(mid)) {
-				helper = NetDataHelper.getInstance(getContext());
-				helper.postRoadTask(uid, mid + "", new NetCallBack<String>() {
-					@Override
-					public void onSuccess(String data) {
-						Toast.makeText(getContext(), data, Toast.LENGTH_LONG).show();
-					}
-
-					@Override
-					public void onError(String error) {
-						Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
-					}
-				});
+		} else if (resultCode == 11) {		//小程序码
+			if(data!=null)
+			{
+				String sn=data.getStringExtra("xcx");
+				mEtVerifyTel.setText(sn);
+			}else{
+				selfToastShow("取消扫码");
 			}
-
 		} else if (requestCode == Activity.RESULT_CANCELED) {
 			Log.i("test","back");
 		}

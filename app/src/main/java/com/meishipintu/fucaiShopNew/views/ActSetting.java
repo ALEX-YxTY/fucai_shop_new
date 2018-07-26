@@ -25,12 +25,12 @@ import android.widget.Toast;
 import com.meishipintu.fucaiShopNew.Cookies;
 import com.meishipintu.fucaiShopNew.MyApplication;
 import com.meishipintu.fucaiShopNew.R;
+import com.meishipintu.fucaiShopNew.custom.CustomChooseDialog;
 import com.meishipintu.fucaiShopNew.models.NetCallBack;
 import com.meishipintu.fucaiShopNew.models.NetDataHelper;
 import com.meishipintu.fucaiShopNew.models.PostGetTask;
 import com.meishipintu.fucaiShopNew.models.bean.VersionInfo;
 import com.meishipintu.fucaiShopNew.utils.ConstUtil;
-import com.meishipintu.fucaiShopNew.utils.Des2;
 import com.meishipintu.fucaiShopNew.utils.DownloadMgr;
 import com.meishipintu.fucaiShopNew.utils.MyDialogUtil;
 
@@ -88,9 +88,16 @@ public class ActSetting extends FragmentActivity {
 				showDialogClear();
 				break;
 			case R.id.rl_change_pwd:
-				intent.setClass(ActSetting.this, ActChangePwd.class);
-				startActivity(intent);
-				overridePendingTransition(R.anim.right_in, R.anim.left_out);
+				if (Cookies.isMaster()) {
+					intent.setClass(ActSetting.this, ActChangePwd.class);
+					startActivity(intent);
+					overridePendingTransition(R.anim.right_in, R.anim.left_out);
+				} else {
+					//弹窗提示
+					CustomChooseDialog dialog = new CustomChooseDialog(ActSetting.this, R.style.CustomDialog, 1);
+					dialog.show();
+				}
+
 				break;
 
 			case R.id.rl_check_update:

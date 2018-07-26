@@ -117,4 +117,9 @@
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
     </style>
 
+    <!--custom dialog-->
+    <style name="CustomDialog2" parent="@android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item><!--无标题-->
+    </style>
+
 </resources>

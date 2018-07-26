@@ -16,6 +16,10 @@ import android.widget.Toast;
 import com.meishipintu.fucaiShopNew.Cookies;
 import com.meishipintu.fucaiShopNew.R;
 import com.meishipintu.fucaiShopNew.models.AccountHttpMgr;
+import com.meishipintu.fucaiShopNew.models.HttpApiClinet;
+import com.meishipintu.fucaiShopNew.models.HttpApiStores;
+import com.meishipintu.fucaiShopNew.models.NetCallBack;
+import com.meishipintu.fucaiShopNew.models.NetDataHelper;
 import com.meishipintu.fucaiShopNew.models.PostGetTask;
 import com.meishipintu.fucaiShopNew.utils.Des2;
 import com.meishipintu.fucaiShopNew.utils.StringUtils;
@@ -27,12 +31,13 @@ public class ActLogin extends Activity {
 
 	private EditText mEtTel = null;
 	private EditText mEtPwd = null;
-	private int mRemenber = 0;
+	private boolean mRemenber = false;
 	private CheckBox cBRemenber = null;
 	private int osVersion = 0;
 	private int mIsRelogin = 0;
 	private TextView tvClearName;
 	private TextView tvClearPassword;
+	private NetDataHelper netDataHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +54,9 @@ public class ActLogin extends Activity {
 		cBRemenber = findViewById(R.id.remenber_password);
 		mRemenber = Cookies.getRemenber();
 		osVersion = android.os.Build.VERSION.SDK_INT;
-		if (mRemenber == 1) {
-			String pwdDes = null;
-			try {
-				pwdDes = Des2.decodeValue("meishipintu", Cookies.getPassword());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			mEtPwd.setText(pwdDes);
+		String psw = Des2.decryptDES(Cookies.getPassword(),"fucai123");
+		if (mRemenber) {
+			mEtPwd.setText(psw);
 			cBRemenber.setChecked(true);
 		} else {
 			mEtPwd.setText("");
@@ -135,7 +135,6 @@ public class ActLogin extends Activity {
 				startActivity(in);
 				overridePendingTransition(R.anim.right_in, R.anim.left_out);
 				break;
-
 			case R.id.bt_login:
 				login();
 				break;
@@ -153,6 +152,7 @@ public class ActLogin extends Activity {
 	};
 
 	private void login() {
+		netDataHelper = NetDataHelper.getInstance(this);
 		final String tel = mEtTel.getText().toString();
 		if (StringUtils.isNullOrEmpty(tel)) {
 			Toast.makeText(ActLogin.this,
@@ -169,80 +169,48 @@ public class ActLogin extends Activity {
 			return;
 		}
 
-		new PostGetTask<JSONObject>(this, R.string.logining,
-				R.string.login_failed, true, true, false) {
-
+		netDataHelper.loginNew(tel, pwd, new NetCallBack<JSONObject>() {
 			@Override
-			protected JSONObject doBackgroudJob() throws Exception {
-				Log.i("test", "login return:" + AccountHttpMgr.getInstance().login(tel, pwd).toString());
-				return AccountHttpMgr.getInstance().login(tel, pwd);
-			}
+			public void onSuccess(JSONObject uinfo) {
+				try {
+					Cookies.setRemenber(cBRemenber.isChecked());
+					Cookies.saveUserInfo(
+							uinfo.getString("uid"),
+							uinfo.getString("token"), pwd, tel,
+							uinfo.getString("nickname"),
+							uinfo.getString("shopId"),
+							uinfo.getString("shopCode"),
+							uinfo.getString("shopName"), uinfo.getInt("type"),
+							uinfo.getString("shopType"), uinfo.getInt("shopCategory"),
+							uinfo.getInt("is_master"),uinfo.getInt("waiter_id"));
 
-			@Override
-			protected void doPostJob(Exception e, JSONObject result) {
+					Intent in = new Intent();
 
-				if (e == null && result != null) {
-					try {
-						Log.i("test", "login result.result:" + result.toString());
-
-						if (result.getInt("result") == 1) {
-							JSONObject uinfo = result
-									.getJSONObject("waiterInfo");
-							String shopComment = uinfo.getString("shopComment");
-							// hcs
-							if (shopComment != null || !shopComment.equals("")) {
-								Cookies.setShopComment(shopComment);
-							}
-							String old_account = Cookies.getAccount();
-							int waitorType = uinfo.getInt("type");// hcs
-							String old_shopId = Cookies.getShopId();
-							String savePwd = null;
-							if (cBRemenber.isChecked() == false) {
-								savePwd = "";
-								Cookies.setRemenber(0);
-							} else {
-								savePwd = pwd;
-								Cookies.setRemenber(1);
-							}
-							Cookies.saveUserInfo(
-									uinfo.getString("uid"),
-									uinfo.getString("token"), pwd, tel,
-									uinfo.getString("nickname"),
-									uinfo.getString("shopId"),
-									uinfo.getString("shopCode"),
-									uinfo.getString("shopName"), waitorType,
-									uinfo.getString("shopType"),uinfo.getInt("shopCategory"));
-
-							Intent in = new Intent();
-							Log.i("test", "login unifo.shopId:" + uinfo.getLong("shopId"));
-
-							if (uinfo.getLong("shopId") == 0) {
-								in.setClass(ActLogin.this, ActBindShop.class);
-							} else {
-								in.setClass(ActLogin.this, MainActivity.class);
-							}
-							startActivity(in);
-							overridePendingTransition(R.anim.right_in,
-									R.anim.left_out);
-							finish();
-						}
-						else {
-							Log.i("test", "login else");
-							Toast.makeText(ActLogin.this,
-									result.getString("msg"), Toast.LENGTH_LONG)
-									.show();
-						}
-					} catch (JSONException e1) {
-						Log.i("test", "login JSONException:" + e1);
-
-						Toast.makeText(ActLogin.this,
-								getString(R.string.login_failed),
-								Toast.LENGTH_LONG).show();
-						e1.printStackTrace();
+					if (uinfo.getLong("shopId") == 0) {
+						in.setClass(ActLogin.this, ActBindShop.class);
+					} else {
+						in.setClass(ActLogin.this, MainActivity.class);
 					}
+					startActivity(in);
+					overridePendingTransition(R.anim.right_in,
+							R.anim.left_out);
+					finish();
+				} catch (Exception e) {
+					Toast.makeText(ActLogin.this,
+							getString(R.string.login_failed),
+							Toast.LENGTH_LONG).show();
+					e.printStackTrace();
 				}
+
 			}
-		}.execute();
+
+			@Override
+			public void onError(String error) {
+				Toast.makeText(ActLogin.this,
+						error,
+						Toast.LENGTH_LONG).show();
+			}
+		});
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import com.meishipintu.fucaiShopNew.R;
 
 
 public class CustomProgressDialog extends Dialog {
+
     public CustomProgressDialog(Context context, String strMessage) {  
         this(context, R.style.CustomProgressDialog, strMessage);  
     }  

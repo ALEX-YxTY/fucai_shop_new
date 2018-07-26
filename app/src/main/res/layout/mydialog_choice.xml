@@ -48,16 +48,6 @@
             android:textSize="@dimen/tv_46" />
 
         <Button
-            android:id="@+id/btn2"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_32"
-            android:background="@drawable/bg_btn_yellow_border"
-            android:textColor="@color/dlog_btn_txt"
-            android:padding="@dimen/margin_10"
-            android:textSize="@dimen/tv_46" />
-
-        <Button
             android:id="@+id/cancel"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

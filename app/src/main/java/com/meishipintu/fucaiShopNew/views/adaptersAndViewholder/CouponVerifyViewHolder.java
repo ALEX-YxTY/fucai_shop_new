@@ -23,7 +23,7 @@ public class CouponVerifyViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.tv_type)
     TextView tvType;
     @BindView(R.id.tv_amount)
-    TextView tvAmount;
+    TextView tvName;
     @BindView(R.id.tv_time)
     TextView tvTime;
 

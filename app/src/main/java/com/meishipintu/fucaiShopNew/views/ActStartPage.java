@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -27,7 +28,8 @@ public class ActStartPage extends AppCompatActivity {
 				intent.setClass(ActStartPage.this, ActCitySel.class);
 			}*/
 			//缓存中有用户ID，并且用户选择记住密码后方可自动登录
-			if (!StringUtils.isNullOrEmpty(Cookies.getShopId()) && Cookies.getUserId().length() > 0 && Cookies.getRemenber() == 1) {
+			if (!StringUtils.isNullOrEmpty(Cookies.getShopId()) && Cookies.getUserId().length() > 0
+					&& Cookies.getRemenber()&&Cookies.isMaster()) {
 				intent.setClass(ActStartPage.this, MainActivity.class);
 			} else {
 				intent.setClass(ActStartPage.this, ActLogin.class);
@@ -42,6 +44,7 @@ public class ActStartPage extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.d("test", "startPage start");
 		this.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 //		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN
 //				, WindowManager.LayoutParams.FLAG_FULLSCREEN);// 设置全屏

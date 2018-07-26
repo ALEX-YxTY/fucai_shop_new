@@ -13,7 +13,14 @@ import java.text.DecimalFormat;
 public class ConstUtil {
 
 	public final static int REQUEST_LIMIT_COUNT = 15;
-	
+
+    public static int CHOOSE_PICTURE_FROM_ALBUN = 110; //从相册选取requestCode
+    public static int TAKE_PHOTO = 120;     //从相机拍照requestCode
+    public static int CROP_SMALL_PICTURE = 130; //调用裁剪
+    public static int REQUEST_CAMERA_PERMISSION = 101;  //请求相机权限requestCode
+    public static int REQUEST_STORAGE_PERMISSION = 140; //请求存储权限
+    public static int COMMIT_INFO = 150; //请求存储权限
+
     public interface MSG_TYPE {
         public static final int RECOMMEND = 1;
 

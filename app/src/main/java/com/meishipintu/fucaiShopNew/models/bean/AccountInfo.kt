@@ -7,5 +7,4 @@ package com.meishipintu.fucaiShopNew.models.bean
  * @param status 0-审核未通过 1-审核通过
  */
 data class AccountInfo(val id: Int, val true_name: String, val mobile: String, val bank_account: String
-                       , val shop_id: String, val identity: String, val front: String, val back: String
-                       , val status: Int)
+                       , val shop_id: String, val status: Int)

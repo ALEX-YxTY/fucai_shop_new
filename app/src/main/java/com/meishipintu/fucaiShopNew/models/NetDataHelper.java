@@ -3,6 +3,7 @@ package com.meishipintu.fucaiShopNew.models;
 import android.content.Context;
 import android.util.Log;
 
+import com.android.volley.NoConnectionError;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
@@ -12,8 +13,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meishipintu.fucaiShopNew.RxBus;
 import com.meishipintu.fucaiShopNew.models.bean.BusMessage;
-import com.meishipintu.fucaiShopNew.models.bean.CouponQueryResult;
-import com.meishipintu.fucaiShopNew.models.bean.CouponVerifyed;
 import com.meishipintu.fucaiShopNew.models.bean.Notice;
 import com.meishipintu.fucaiShopNew.models.bean.OrderdoGrad;
 import com.meishipintu.fucaiShopNew.models.bean.QLCRecomend;
@@ -23,6 +22,9 @@ import com.meishipintu.fucaiShopNew.models.bean.RewardRecord;
 import com.meishipintu.fucaiShopNew.models.bean.SSDRecomend;
 import com.meishipintu.fucaiShopNew.models.bean.SSQRecomend;
 import com.meishipintu.fucaiShopNew.models.bean.VersionInfo;
+import com.meishipintu.fucaiShopNew.models.bean.XcxCouponDetail;
+import com.meishipintu.fucaiShopNew.models.bean.XcxCouponQuery;
+import com.meishipintu.fucaiShopNew.utils.MessageDigestGenerator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -511,59 +513,97 @@ public class NetDataHelper {
     }
 
     //获取验券详情
-    public void getCouponQuery(int type, String shopId, long startTime, long endTime, final NetCallBack<CouponQueryResult> callBack) {
+    public void getCouponQuery(int type, String shopId, long startTime, long endTime, final NetCallBack<XcxCouponQuery> callBack) {
         Map<String, String> map = new HashMap<>();
         map.put("shop_id", shopId);
-        map.put("start_time", startTime + "");
-        map.put("end_time", endTime + "");
+        map.put("start_time", startTime/1000 + "");
+        map.put("end_time", endTime/1000 + "");
         if (type > 0) {
             map.put("type", type + "");
         }
-        NormalPostRequest request = new NormalPostRequest("http://fucai.milaipay.com/Home/Index/getShopCoupon_new",
-                new Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject arg0) {
-                        Log.d("getCouponQuery", arg0.toString());
-                        int succeed;
-                        try {
-                            succeed = arg0.getInt("status");
-                            if (succeed == 1) {
-                                CouponQueryResult result = new CouponQueryResult();
-                                result.setCount_mobile(arg0.getString("count_mobile"));
-                                result.setTotla_money(arg0.getString("total_money"));
-                                List<CouponVerifyed> couponVerifyedList = new ArrayList<>();
-                                JSONArray dataArray = arg0.getJSONArray("data");
-                                for (int i = 0; i < dataArray.length(); i++) {
-                                    JSONObject dataItem = dataArray.getJSONObject(i);
-                                    CouponVerifyed coupon = new CouponVerifyed();
-                                    coupon.setMobile(dataItem.getString("mobile"));
-                                    coupon.setName(dataItem.getString("name"));
-                                    coupon.setValue(dataItem.getString("value"));
-                                    coupon.setUse_time(dataItem.getString("use_time"));
-                                    couponVerifyedList.add(coupon);
-                                }
-                                result.setData(couponVerifyedList);
-                                callBack.onSuccess(result);
-                            } else {
-                                callBack.onError(arg0.getString("msg"));
-                                return;
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            callBack.onError("获取验券信息失败，请稍后重试");
-                        }
-
-                    }
-                }, new ErrorListener() {
-
+        NormalPostRequest request = new NormalPostRequest("http://fangche.domobile.net/Api/Lottery/getShopUseCoupon", new Listener<JSONObject>() {
             @Override
-            public void onErrorResponse(VolleyError arg0) {
+            public void onResponse(JSONObject response) {
+                try {
+                    int succeed = response.getInt("code");
+                    if (succeed == 200) {
+                        XcxCouponQuery query = new XcxCouponQuery();
+                        ArrayList<XcxCouponDetail> result = new ArrayList<>();
+                        JSONObject result1 = response.getJSONObject("result");
+                        Log.i("test", "return:" + result1.toString());
+                        JSONArray resultArray = result1.getJSONArray("data");
+                        for(int i=0;i<resultArray.length();i++) {
+                            JSONObject item = (JSONObject) resultArray.get(i);
+                            XcxCouponDetail itemDetail = new XcxCouponDetail();
+                            itemDetail.setCoupon_sn(item.getString("coupon_sn"));
+                            itemDetail.setWaiter_name(item.getString("waiter_name"));
+                            itemDetail.setRedball_name(item.getString("redball_name"));
+                            itemDetail.setStatus(item.getInt("status"));
+                            itemDetail.setUse_time(item.getString("use_time"));
+                            result.add(itemDetail);
+                        }
+                        query.setData(result);
+                        query.setPerson_num(result1.getInt("person_num"));
+                        callBack.onSuccess(query);
+                    } else {
+                        callBack.onError(response.getString("msg"));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    callBack.onError("获取验券信息失败，请稍后重试");
+                }
+            }
+        }, new ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
                 callBack.onError("获取验券信息失败，请稍后重试");
             }
-
         }, map);
+//        NormalPostRequest request = new NormalPostRequest("http://fucai.milaipay.com/Home/Index/getShopCoupon_new",
+//                new Listener<JSONObject>() {
+//
+//                    @Override
+//                    public void onResponse(JSONObject arg0) {
+//                        Log.d("getCouponQuery", arg0.toString());
+//                        int succeed;
+//                        try {
+//                            succeed = arg0.getInt("status");
+//                            if (succeed == 1) {
+//                                CouponQueryResult result = new CouponQueryResult();
+//                                result.setCount_mobile(arg0.getString("count_mobile"));
+//                                result.setTotla_money(arg0.getString("total_money"));
+//                                List<CouponVerifyed> couponVerifyedList = new ArrayList<>();
+//                                JSONArray dataArray = arg0.getJSONArray("data");
+//                                for (int i = 0; i < dataArray.length(); i++) {
+//                                    JSONObject dataItem = dataArray.getJSONObject(i);
+//                                    CouponVerifyed coupon = new CouponVerifyed();
+//                                    coupon.setMobile(dataItem.getString("mobile"));
+//                                    coupon.setName(dataItem.getString("name"));
+//                                    coupon.setValue(dataItem.getString("value"));
+//                                    coupon.setUse_time(dataItem.getString("use_time"));
+//                                    couponVerifyedList.add(coupon);
+//                                }
+//                                result.setData(couponVerifyedList);
+//                                callBack.onSuccess(result);
+//                            } else {
+//                                callBack.onError(arg0.getString("msg"));
+//                                return;
+//                            }
+//
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                            callBack.onError("获取验券信息失败，请稍后重试");
+//                        }
+//
+//                    }
+//                }, new ErrorListener() {
+//
+//            @Override
+//            public void onErrorResponse(VolleyError arg0) {
+//                callBack.onError("获取验券信息失败，请稍后重试");
+//            }
+//
+//        }, map);
         mQueue.add(request);
     }
 
@@ -617,6 +657,7 @@ public class NetDataHelper {
         map.put("end_time", endTime);
         map.put("type", type + "");
         map.put("page", page + "");
+        Log.d("getCouponQuery", map.toString());
         NormalPostRequest request = new NormalPostRequest("http://fucai.milaipay.com/Home/Shop/getShopGetMoneyList",
                 new Listener<JSONObject>() {
                     @Override
@@ -652,6 +693,7 @@ public class NetDataHelper {
     public void getRewardByMonth(String shopId, final NetCallBack<RewardByMonth> callBack) {
         Map<String, String> map = new HashMap<>();
         map.put("shop_id", shopId);
+        Log.d("test", "shop_id=" + shopId);
         NormalPostRequest request = new NormalPostRequest("http://fucai.milaipay.com/Home/Shop/getThisMonthAndLastMonthMoney",
                 new Listener<JSONObject>() {
                     @Override
@@ -678,6 +720,106 @@ public class NetDataHelper {
             @Override
             public void onErrorResponse(VolleyError error) {
                 callBack.onError("获取商户奖励信息失败，请稍后重试");
+            }
+        }, map);
+        mQueue.add(request);
+    }
+
+    //获取小程序卡券详情接口
+    public void getXcxSnDetail(String sn, String shop_id, final NetCallBack<XcxCouponDetail> callBack){
+        Map<String, String> map = new HashMap<>();
+        map.put("sn", sn);
+        map.put("shop_id", shop_id);
+        NormalPostRequest request = new NormalPostRequest("http://fangche.domobile.net/Api/Lottery/getShopCouponDetail", new Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    int succeed = response.getInt("code");
+                    if (succeed == 200) {
+                        String data = response.getString("result");
+                        Gson gson = new Gson();
+                        XcxCouponDetail xcxCouponDetail = gson.fromJson(data, XcxCouponDetail.class);
+                        callBack.onSuccess(xcxCouponDetail);
+                    } else {
+                        callBack.onError(response.getString("msg"));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    callBack.onError("获取卡券信息失败，请稍后重试");
+                }
+            }
+        }, new ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callBack.onError("获取卡券信息失败，请稍后重试");
+            }
+        }, map);
+        mQueue.add(request);
+    }
+
+    //验证来自xcx的券
+    public void checkSnFromXcx(String sn, String shop_id, String waiterId, String waiterName, final NetCallBack<Boolean> callBack){
+        Map<String, String> map = new HashMap<>();
+        map.put("sn", sn);
+        map.put("shop_id", shop_id);
+        map.put("waiter_id", waiterId);
+        map.put("waiter_name", waiterName);
+
+        NormalPostRequest request = new NormalPostRequest("http://fangche.domobile.net/Api/Lottery/useCoupon", new Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.i("test", "return:" + response);
+                try {
+                    int succeed = response.getInt("code");
+                    if (succeed == 200) {
+                        callBack.onSuccess(true);
+                    } else {
+                        callBack.onError(response.getString("msg"));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    callBack.onError("获取卡券信息失败，请稍后重试");
+                }
+            }
+        }, new ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callBack.onError("卡券验证失败，请稍后重试");
+            }
+        }, map);
+        mQueue.add(request);
+    }
+
+    //新的登陆接口
+    public void loginNew(String mobile,String password, final NetCallBack<JSONObject> callBack){
+        Map<String, String> map = new HashMap<>();
+        map.put("mobile", mobile);
+        map.put("password", MessageDigestGenerator.generateHash("SHA-256", password));
+        Log.i("test", "mobile:" + mobile + ", password:" + password);
+        NormalPostRequest request = new NormalPostRequest("http://a.milaipay.com/Merchant/Waiter/login_new", new Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    int succeed = response.getInt("result");
+                    if (succeed == 1) {
+                        JSONObject waiterInfo = response.getJSONObject("waiterInfo");
+                        callBack.onSuccess(waiterInfo);
+                    } else {
+                        callBack.onError(response.getString("msg"));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    callBack.onError("登录失败，请稍后重试");
+                }
+            }
+        }, new ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error instanceof NoConnectionError) {
+                    callBack.onError("当前网络无连接，请稍后重试");
+                } else {
+                    callBack.onError("登录失败，请稍后重试");
+                }
             }
         }, map);
         mQueue.add(request);

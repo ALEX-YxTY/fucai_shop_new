@@ -104,7 +104,6 @@
             android:layout_width="0dp"
             android:layout_weight="2"
             android:gravity="right|center_vertical"
-            android:text="搜索"
             android:textSize="12sp"
             android:textColor="@color/bg_gray2"
             android:layout_height="match_parent"
@@ -283,7 +282,7 @@
                 android:layout_marginLeft="3dp"
                 android:textSize="12sp"
                 android:textColor="@color/tv_gray2"
-                android:text="卡券数量"/>
+                android:text="卡券金额"/>
             <TextView
                 android:id="@+id/tv_amount"
                 android:layout_width="wrap_content"
@@ -291,7 +290,7 @@
                 android:layout_below="@id/component3"
                 android:layout_marginTop="12dp"
                 android:textSize="18sp"
-                android:text="￥999.99"
+                android:text="￥0.00"
                 android:textColor="#4A90E2"/>
 
         </RelativeLayout>

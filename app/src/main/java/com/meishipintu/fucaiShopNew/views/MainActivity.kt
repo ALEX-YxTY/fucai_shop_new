@@ -78,32 +78,29 @@ class MainActivity : AppCompatActivity(),StartCameraListener {
             }
         })
         //获取商户信息是否审核通过
-        if (!Cookies.isInfoPass(Cookies.getShopId())) {
-            netDataHelper!!.isUserInfoChecked(Cookies.getShopId(), object : NetCallBack<Int> {
-                override fun onSuccess(data: Int?) {
-                    status = when (data) {
-                        1 -> {
-                            //审核已通过
-                            Cookies.hasInfoPassed(Cookies.getShopId())
-                            1
-                        }
-                        0 -> {
-                            //已提交未通过
-                            Cookies.hasCommitInfo(Cookies.getShopId())
-                            0
-                        }
-                        else -> -1
+        netDataHelper!!.isUserInfoChecked(Cookies.getShopId(), object : NetCallBack<Int> {
+            override fun onSuccess(data: Int?) {
+                status = when (data) {
+                    1 -> {
+                        //审核已通过
+                        Cookies.hasInfoPassed(Cookies.getShopId())
+                        1
                     }
+                    0 -> {
+                        //已提交未通过
+                        Cookies.hasCommitInfo(Cookies.getShopId())
+                        0
+                    }
+                    else -> -1
                 }
+            }
 
-                override fun onError(error: String?) {
-                    Toast.makeText(this@MainActivity, error, Toast.LENGTH_SHORT).show()
-                }
+            override fun onError(error: String?) {
+                Toast.makeText(this@MainActivity, error, Toast.LENGTH_SHORT).show()
+            }
 
-            })
-        } else {
-            status = 1
-        }
+        })
+
         setContentView(R.layout.activity_main)
 
         fragmentManager = supportFragmentManager
@@ -137,13 +134,14 @@ class MainActivity : AppCompatActivity(),StartCameraListener {
                 StatusBarCompat.setStatusBarColor(this, 0x55000000)
             }
             "reward" -> {
-                fragment = if (status==1) {
-                    //审核已通过
-                    E0_RewardFrag.createInstance()
-                } else {
-                    //还未通过审核
-                    F0_AddInfoFrag.createInstance()
-                }
+//                fragment = if (status==1) {
+//                    //审核已通过
+//                    E0_RewardFrag.createInstance()
+//                } else {
+//                    //还未通过审核
+//                    F0_AddInfoFrag.createInstance()
+//                }
+                fragment = E0_RewardFrag.createInstance()
                 StatusBarCompat.setStatusBarColor(this, 0x55000000)
             }
         }
@@ -176,10 +174,13 @@ class MainActivity : AppCompatActivity(),StartCameraListener {
     }
 
     //退出程序对话框
-    fun showDialogQuit() {
+    fun showDialogQuit(type:Int) {
         val qDialog = object : MyDialogUtil(this@MainActivity) {
             override fun onClickPositive() {
-                Cookies.clearLogin()
+                if (type == 1) {
+                    Cookies.clearLogin()
+                }
+                this@MainActivity.finish()
             }
             override fun onClickNagative() {}
         }
@@ -190,7 +191,7 @@ class MainActivity : AppCompatActivity(),StartCameraListener {
 
     override fun onKeyDown(keyCode: Int, event: android.view.KeyEvent): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            showDialogQuit()
+            showDialogQuit(0)
         }
         return false
     }
@@ -240,11 +241,11 @@ class MainActivity : AppCompatActivity(),StartCameraListener {
 
         override fun doInBackground(vararg params: String): File {
             val fileName = "fcb.apk"
-            val tmpFile = File("/sdcard/njfc")
+            val tmpFile = File("/sdcard/fcb")
             if (!tmpFile.exists()) {
                 tmpFile.mkdir()
             }
-            val file = File("/sdcard/njfc/" + fileName)
+            val file = File("/sdcard/fcb/" + fileName)
 
             try {
                 val url = URL(params[0])

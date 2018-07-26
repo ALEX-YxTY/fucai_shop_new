@@ -51,8 +51,8 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardViewHolder> {
     @Override
     public void onBindViewHolder(RewardViewHolder holder, int position) {
         final RewardData rewardDetail = dataList.get(position);
-        glide.load(rewardDetail.getType() == 1 ? R.drawable.icon_store : R.drawable.icon_rechargecenter).into(holder.iv);
-        holder.tvType.setText("充值中心");
+        glide.load(rewardDetail.getPay_type_from() == 2 ? R.drawable.icon_store : R.drawable.icon_rechargecenter).into(holder.iv);
+        holder.tvType.setText(rewardDetail.getPay_type_from() == 1 ? "充值中心":"杂货铺");
         holder.tvTel.setText(StringUtils.specilaFormat(rewardDetail.getMobile()));
         holder.tvMoney.setText("+" + rewardDetail.getMake_money());
         holder.tvTime.setText(DateUtils.formart3(rewardDetail.getCreate_time()));
@@ -60,7 +60,7 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardViewHolder> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ActOrderDetail.class);
-                intent.putExtra("type", rewardDetail.getType());
+                intent.putExtra("type", rewardDetail.getPay_type_from());   //1-充值中心 2-杂货铺
                 intent.putExtra("id", rewardDetail.getId());
                 context.startActivity(intent);
             }

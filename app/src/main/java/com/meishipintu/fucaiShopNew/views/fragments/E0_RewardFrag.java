@@ -81,7 +81,7 @@ public class E0_RewardFrag extends Fragment implements CustomNumPickeDialog.OnOk
 
 
     private int dateType = 2;  //1-按月查询 2-按日查询
-    private int couponType = 3;  //1-全部分类 2-杂货铺 3-充值中心
+    private int couponType = 1;  //1-全部分类 2-杂货铺 3-充值中心
     private String shopId;
 
     public static E0_RewardFrag createInstance() {
@@ -106,12 +106,13 @@ public class E0_RewardFrag extends Fragment implements CustomNumPickeDialog.OnOk
 
         tvDay.setText(calendarCheck.get(Calendar.YEAR) + "-" + (calendarCheck.get(Calendar.MONTH) + 1)
                 + "-" + calendarCheck.get(Calendar.DAY_OF_MONTH));
-        //TODO 暂时设为仅有充值中心
-        tvType.setText("充值中心");
+
+        tvType.setText("全部");
 
         //获取月度奖励信息
         getRewardByMonth();
         //获取初始数据
+        getTime();
         initRv();
         return view;
     }
@@ -130,8 +131,12 @@ public class E0_RewardFrag extends Fragment implements CustomNumPickeDialog.OnOk
                     @Override
                     public void onSuccess(RewardRecord data) {
                         Log.d("test", "load data:" + data.toString());
-                        tvRechargeNumber.setText(data.getRecharge_count() + "笔");
-                        tvRechargeMoney.setText("￥" + data.getRecharge_sum());
+                        tvRechargeNumber.setText(data.getCz_center_recharge_count() + "笔");
+                        tvRechargeMoney.setText("￥" + data.getCz_center_recharge_sum());
+                        tvStoreNumber.setText(data.getGoods_recharge_count() + "笔");
+                        tvStoreMoney.setText("￥" + data.getGoods_recharge_sum());
+                        tvMoney.setText("￥" + (data.getGoods_recharge_sum() + data.getCz_center_recharge_sum()));
+
                         if (page == 1) {
                             //首次加载
                             dataList.clear();
@@ -163,10 +168,13 @@ public class E0_RewardFrag extends Fragment implements CustomNumPickeDialog.OnOk
         netDataHelper.getRewardByMonth(shopId, new NetCallBack<RewardByMonth>() {
             @Override
             public void onSuccess(RewardByMonth data) {
-                SpannableStringBuilder style = new SpannableStringBuilder("￥ "+ StringUtils.floatFormat(data.getMoney_this_month()));
+                Log.d("test", "data:" + data.toString());
+                SpannableStringBuilder style = new SpannableStringBuilder("￥ "+ StringUtils.floatFormat(
+                        data.getMoney_this_month()+data.getGoods_this_money_money()));
                 style.setSpan(new AbsoluteSizeSpan(DensityUtils.dip2px(14)),0, 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
                 tvThisMonthMoney.setText(style);
-                SpannableStringBuilder style2 = new SpannableStringBuilder("￥ "+ StringUtils.floatFormat(data.getMoney_last_month()));
+                SpannableStringBuilder style2 = new SpannableStringBuilder("￥ "+ StringUtils.floatFormat(
+                        data.getMoney_last_month()+data.getGoods_before_month_money()));
                 style2.setSpan(new AbsoluteSizeSpan(DensityUtils.dip2px(14)),0, 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
                 tvLastMonthMoney.setText(style2);
             }

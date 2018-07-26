@@ -2,6 +2,7 @@ package com.meishipintu.fucaiShopNew;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.meishipintu.fucaiShopNew.utils.DateUtils;
 import com.meishipintu.fucaiShopNew.utils.Des2;
@@ -12,16 +13,14 @@ public class Cookies {
 	public static String LOGIN_INFO_FILE = "account_info";
 
 	public static void saveUserInfo(String userId, String token, String pwd, String tel, String nick, String shopId,
-									String code, String shopName, int waitorType, String shopType, int shopCategory) {
+									String code, String shopName, int waitorType, String shopType,
+									int shopCategory, int isMaster, int waiterId) {
 		SharedPreferences settings = MyApplication.instance.getSharedPreferences(LOGIN_INFO_FILE,
 				Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = settings.edit();
 		String pwdDes = "";
-		try {
-			pwdDes = Des2.encode("meishipintu", pwd);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		pwdDes = Des2.encryptDES(pwd,"fucai123");
+
 		editor.putString("userId", userId);
 		editor.putString("token", token);
 		editor.putString("password", pwdDes);
@@ -36,6 +35,8 @@ public class Cookies {
 		}
 		editor.putString("shopType", shopType);
 		editor.putInt("shopCategory", shopCategory);
+		editor.putBoolean("isMaster", isMaster == 1);
+		editor.putInt("waiterId", waiterId);
 		editor.commit();
 	}
 
@@ -123,19 +124,19 @@ public class Cookies {
 	}
 
 	// 是否记住密码
-	public static void setRemenber(int isRemenber) {
+	public static void setRemenber(boolean isRemenber) {
 		SharedPreferences settings = MyApplication.instance.getSharedPreferences(LOGIN_INFO_FILE,
 				Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = settings.edit();
-		editor.putInt("isRemenber", isRemenber);
+		editor.putBoolean("pswRemenber", isRemenber);
 		editor.commit();
 	}
 
 	// 是否记住密码
-	public static int getRemenber() {
+	public static boolean getRemenber() {
 		SharedPreferences settings = MyApplication.instance.getSharedPreferences(LOGIN_INFO_FILE,
 				Context.MODE_PRIVATE);
-		int isRemenber = settings.getInt("isRemenber", 0);
+		boolean isRemenber = settings.getBoolean("pswRemenber", false);
 		return isRemenber;
 	}
 
@@ -180,10 +181,13 @@ public class Cookies {
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putString("userId", "");
 		editor.putString("token", "");
-		editor.putString("password", "");
-		// editor.putString("account", "");
+		//editor.putString("account", "");
 		editor.putString("nick", "");
+		editor.remove("isInfoPass" + settings.getString("shopid", ""));
+		editor.remove("isCommitInfo" + settings.getString("shopid", ""));
 		editor.remove("shopid");
+		editor.remove("isMaster");
+		editor.remove("waiterId");
 		editor.commit();
 	}
 
@@ -615,4 +619,24 @@ public class Cookies {
 		editor.commit();
 	}
 
+	public static boolean isMaster() {
+		SharedPreferences settings = MyApplication.instance.getSharedPreferences(LOGIN_INFO_FILE,
+				Context.MODE_PRIVATE);
+		boolean flag = settings.getBoolean("isMaster" , false);
+		return flag;
+	}
+
+	public static String getNickName(){
+		SharedPreferences settings = MyApplication.instance.getSharedPreferences(LOGIN_INFO_FILE,
+				Context.MODE_PRIVATE);
+		String nickname = settings.getString("nick" , "");
+		return nickname;
+	}
+
+	public static String getWaiterId(){
+		SharedPreferences settings = MyApplication.instance.getSharedPreferences(LOGIN_INFO_FILE,
+				Context.MODE_PRIVATE);
+		String waiterId = "" + settings.getInt("waiterId", 0);
+		return waiterId;
+	}
 }

@@ -19,9 +19,9 @@
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/fcsh"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/fcsh"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
@@ -74,13 +74,57 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <!--奖励详情页-->
-        <activity android:name=".views.ActOrderDetail"
+        <!-- 奖励详情页 -->
+        <activity
+            android:name=".views.ActOrderDetail"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <!--信息提交页面页-->
-        <activity android:name=".views.InfomationCommitActivity"
+        <!-- 信息提交页面页 -->
+        <activity
+            android:name=".views.InfomationCommitActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!-- 设置页面 -->
+        <activity
+            android:name=".views.ActSetting"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!-- 彩票列表页面 -->
+        <activity
+            android:name=".views.DebetListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!-- 录入页面 -->
+        <activity
+            android:name=".views.RecoDebetActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!-- 修改密码页面 -->
+        <activity
+            android:name=".views.ActChangePwd"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!-- 消息详情页面 -->
+        <activity
+            android:name=".views.NewsDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!-- 我的营业员页面 -->
+        <activity
+            android:name=".views.MyWaiterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!-- 营业员编辑和新增页面 -->
+        <activity
+            android:name=".views.EditWaiterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
@@ -89,26 +133,21 @@
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
             android:theme="@android:style/Theme.Translucent" />
 
-        <!-- bugly required -->
+        <!-- FileProvider 供跨程序使用Uri文件 -->
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.meishipintu.fucaiShopNew.fileProvider"
+            android:authorities="com.meishipintu.fucai_shop_new"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths" />
+                android:resource="@xml/filepath" />
         </provider>
 
-        <!-- photo picker -->
-        <activity
-            android:name="me.iwf.photopicker.PhotoPickerActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-
-        <!-- photo picker -->
-        <activity
-            android:name="me.iwf.photopicker.PhotoPagerActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".views.WebActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:hardwareAccelerated="true"/>
     </application>
 
 </manifest>

@@ -21,8 +21,11 @@ import com.meishipintu.fucaiShopNew.custom.CustomNumPickeDialog;
 import com.meishipintu.fucaiShopNew.models.NetCallBack;
 import com.meishipintu.fucaiShopNew.models.NetDataHelper;
 import com.meishipintu.fucaiShopNew.models.bean.CouponQueryResult;
+import com.meishipintu.fucaiShopNew.models.bean.XcxCouponDetail;
+import com.meishipintu.fucaiShopNew.models.bean.XcxCouponQuery;
 import com.meishipintu.fucaiShopNew.utils.StringUtils;
 import com.meishipintu.fucaiShopNew.views.adaptersAndViewholder.CouponVerifyAdapter;
+import com.meishipintu.fucaiShopNew.views.adaptersAndViewholder.XcxCouponVerifyAdapter;
 
 import java.util.Calendar;
 
@@ -61,8 +64,10 @@ public class ActCouponQuery extends Activity implements CustomNumPickeDialog.OnO
 
     private CustomDatePickeDialog datePickeDialog;
     private NetDataHelper netDataHelper;
-    private CouponQueryResult result = null;
-    private CouponVerifyAdapter adapter;
+    //    private CouponQueryResult result = null;
+    private XcxCouponQuery result =  null;
+    //    private CouponVerifyAdapter adapter;
+    private XcxCouponVerifyAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +98,7 @@ public class ActCouponQuery extends Activity implements CustomNumPickeDialog.OnO
     private void initRv() {
         if (result != null && result.getData() != null) {
             if (adapter == null) {
-                adapter = new CouponVerifyAdapter(result.getData(), this);
+                adapter = new XcxCouponVerifyAdapter(result.getData(), this);
                 rv.setAdapter(adapter);
             } else {
                 adapter.notifyDataSetChanged();
@@ -248,13 +253,19 @@ public class ActCouponQuery extends Activity implements CustomNumPickeDialog.OnO
         }
         //调用时间查询接口
         Log.i("test", "shopid:" + shopId + ",timestart:" + timeStart + ",timeEnd:" + timeEnd);
-        netDataHelper.getCouponQuery(couponType, shopId, timeStart, timeEnd, new NetCallBack<CouponQueryResult>() {
+        netDataHelper.getCouponQuery(couponType, shopId, timeStart, timeEnd, new NetCallBack<XcxCouponQuery>() {
             @Override
-            public void onSuccess(CouponQueryResult data) {
-                result = data;
+            public void onSuccess(XcxCouponQuery data) {
+                if (result == null) {
+                    result = data;
+                } else {
+                    result.getData().clear();
+                    result.getData().addAll(data.getData());
+                    result.setPerson_num(data.getPerson_num());
+                }
                 tvNumber.setText(data.getData().size() + "");
-                tvVerify.setText(data.getCount_mobile());
-                tvAmount.setText(StringUtils.floatFormat(Float.parseFloat(data.getTotla_money())));
+                tvVerify.setText(""+data.getPerson_num());
+                tvAmount.setText("-");
                 initRv();
             }
 

@@ -46,14 +46,14 @@
                 android:layout_marginLeft="@dimen/margin_8"
                 android:layout_marginRight="@dimen/margin_8"
                 android:layout_centerVertical="true"
-                android:inputType="phone"
-                android:maxLength="14"
+                android:inputType="text"
+                android:maxLength="17"
                 android:singleLine="true"
                 android:gravity="center"
                 android:text=""
                 android:textColorHint="@color/light_gray"
                 android:textColor="@color/text_orange"
-                android:textSize="@dimen/tv_64"
+                android:textSize="24sp"
                 />
             <TextView
                 android:id="@+id/tv_clear_tel"

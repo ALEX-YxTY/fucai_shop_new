@@ -72,6 +72,5 @@ public class AccountHttpMgr {
         jsonObject = HttpMgr.getInstance().postJson(ServerUrlConstants.getBindShopUrl(), jsonObjectParam, false);
         return jsonObject;
     }
-    
-    
+
 }

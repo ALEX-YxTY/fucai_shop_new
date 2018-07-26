@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 
 public class ActCaptureTicket extends CaptureActivity {
 
-	private static final int TASK_OK = 11;
+	private static final int XCX_SN = 11;
 	private int mCheckCode = 0;
 	private int mCheckCodeFrom=-1;
 
@@ -39,8 +39,6 @@ public class ActCaptureTicket extends CaptureActivity {
 	 */
 	public boolean HandleDecoded(String str) {
 		if (!StringUtils.isNullOrEmpty(str)) {
-			Pattern p = Pattern.compile("^[1-9]\\d{0,9}$");
-			Matcher mather = p.matcher(str);
 
 			if (mCheckCode == 1) {
 				Intent data = new Intent();
@@ -76,11 +74,10 @@ public class ActCaptureTicket extends CaptureActivity {
 					}else{
 						selfToastShow("非米来红包二维码，请确认后重试");
 					}
-				} else if (mather.matches()) {
-					Log.i("test", "result mathces");
-					Intent data=new Intent();
-					data.putExtra("task", str);
-					ActCaptureTicket.this.setResult(TASK_OK, data);
+				} else if (str.startsWith("xcx")) {
+					Intent data = new Intent();
+					data.putExtra("xcx", str);
+					ActCaptureTicket.this.setResult(XCX_SN, data);
 				} else {
 					selfToastShow("无效的红包二维码");
 				}

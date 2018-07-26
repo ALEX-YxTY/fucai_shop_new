@@ -11,27 +11,13 @@ import java.util.List;
 
 public class RewardRecord implements Serializable {
 
-    private int recharge_count;
-    private double recharge_sum;
+    private int cz_center_recharge_count;
+    private double cz_center_recharge_sum;
+    private int goods_recharge_count;
+    private double goods_recharge_sum;
     private List<RewardData> data;
 
     public RewardRecord() {
-    }
-
-    public int getRecharge_count() {
-        return recharge_count;
-    }
-
-    public void setRecharge_count(int recharge_count) {
-        this.recharge_count = recharge_count;
-    }
-
-    public double getRecharge_sum() {
-        return recharge_sum;
-    }
-
-    public void setRecharge_sum(double recharge_sum) {
-        this.recharge_sum = recharge_sum;
     }
 
     public List<RewardData> getData() {
@@ -42,12 +28,46 @@ public class RewardRecord implements Serializable {
         this.data = data;
     }
 
+    public int getCz_center_recharge_count() {
+        return cz_center_recharge_count;
+    }
+
+    public void setCz_center_recharge_count(int cz_center_recharge_count) {
+        this.cz_center_recharge_count = cz_center_recharge_count;
+    }
+
+    public double getCz_center_recharge_sum() {
+        return cz_center_recharge_sum;
+    }
+
+    public void setCz_center_recharge_sum(double cz_center_recharge_sum) {
+        this.cz_center_recharge_sum = cz_center_recharge_sum;
+    }
+
+    public int getGoods_recharge_count() {
+        return goods_recharge_count;
+    }
+
+    public void setGoods_recharge_count(int goods_recharge_count) {
+        this.goods_recharge_count = goods_recharge_count;
+    }
+
+    public double getGoods_recharge_sum() {
+        return goods_recharge_sum;
+    }
+
+    public void setGoods_recharge_sum(double goods_recharge_sum) {
+        this.goods_recharge_sum = goods_recharge_sum;
+    }
+
     @Override
     public String toString() {
         return "RewardRecord{" +
-                "recharge_count=" + recharge_count +
-                ", recharge_sum=" + recharge_sum +
-                ", data=" + data.toString() +
+                "cz_center_recharge_count=" + cz_center_recharge_count +
+                ", cz_center_recharge_sum=" + cz_center_recharge_sum +
+                ", goods_recharge_count=" + goods_recharge_count +
+                ", goods_recharge_sum=" + goods_recharge_sum +
+                ", data=" + data +
                 '}';
     }
 }

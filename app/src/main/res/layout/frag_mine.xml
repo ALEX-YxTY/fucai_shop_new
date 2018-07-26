@@ -48,22 +48,39 @@
                     <TextView
                         android:id="@+id/shop_name"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="集庆门大街店"
                         android:textColor="@color/tv_black2"
                         android:textSize="14sp" />
 
-                    <TextView
-                        android:id="@+id/tel"
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="bottom"
-                        android:text="1398989998"
-                        android:textColor="@color/bg_gray2"
-                        android:textSize="12sp" />
+                        android:layout_height="0dp"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/tv_waiter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/bg_gray2"
+                            android:textSize="12sp"
+                            android:layout_marginRight="10dp"
+                            android:text="营业员"
+                            />
+
+                        <TextView
+                            android:id="@+id/tel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1398989998"
+                            android:textColor="@color/bg_gray2"
+                            android:textSize="12sp" />
+
+
+
+                    </LinearLayout>
 
                 </LinearLayout>
             </LinearLayout>
@@ -119,6 +136,7 @@
                 android:id="@+id/rl_coupon"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/white"
                 >
 
@@ -147,12 +165,45 @@
                 android:background="@color/divider_gray"
                 />
 
+            <RelativeLayout
+                android:id="@+id/rl_my_waiter"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                >
+
+                <ImageView
+                    android:id="@+id/iv_my_waiter"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/icon_my_waiter" />
+
+                <TextView
+                    android:id="@+id/tv_my_waiter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="18dp"
+                    android:layout_toRightOf="@+id/iv_my_waiter"
+                    android:text="我的营业员"
+                    android:textColor="@color/tv_black2"
+                    android:textSize="15sp" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/divider_gray"
+                />
+
 
             <RelativeLayout
                 android:id="@+id/rl_setting"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/white">
 
                 <ImageView

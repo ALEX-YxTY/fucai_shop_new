@@ -33,10 +33,10 @@ class F0_AddInfoFrag : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater!!.inflate(R.layout.frag_add_info, container, false)
         stubReview = view.findViewById(R.id.stub_review)
-//        if (Cookies.isCommitInfo(Cookies.getShopId())) {
-//            //已提交,待审核
-//            stubReview?.inflate()
-//        }
+        if (Cookies.isCommitInfo(Cookies.getShopId())) {
+            //已提交,待审核
+            stubReview?.inflate()
+        }
         view.findViewById<View>(R.id.bt_add_info).setOnClickListener {
             startActivityForResult(Intent(activity, InfomationCommitActivity::class.java), COMMIT_INFO)
         }

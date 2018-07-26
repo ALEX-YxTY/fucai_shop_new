@@ -123,4 +123,6 @@
     <color name="tv_gray3">#999999</color>
     <color name="tv_black4">#4a4a4a</color>
 
+    <color name="untransparent_gray">#e4e4e4</color>
+
 </resources>

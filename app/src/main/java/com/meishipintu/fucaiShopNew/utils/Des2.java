@@ -3,18 +3,30 @@ package com.meishipintu.fucaiShopNew.utils;
 import android.util.Base64;
 import android.util.Log;
 
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.AlgorithmParameterSpec;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 public class Des2
 {
+
+
+    //初始化向量，随意填写
+    private static byte[]iv={1,2,3,4,5,7,8,6};
+
     public static final String ALGORITHM_DES = "DES/CBC/PKCS5Padding";
 
     public static String MD5(String str)  
@@ -64,6 +76,51 @@ public class Des2
     	key = MD5(key);
         return encode(key.substring(0,24), data.getBytes());
     }
+
+    public static String encryptDES(String encryptString,String encryptKey){
+
+        try {
+            //实例化IvParameterSpec对象，使用指定的初始化向量
+            IvParameterSpec zeroIv=new IvParameterSpec(iv);
+            //实例化SecretKeySpec，根据传入的密钥获得字节数组来构造SecretKeySpec
+            SecretKeySpec key =new SecretKeySpec(encryptKey.getBytes(),"DES");
+            //创建密码器
+            Cipher cipher=Cipher.getInstance("DES/CBC/PKCS5Padding");
+            //用密钥初始化Cipher对象
+            cipher.init(Cipher.ENCRYPT_MODE,key,zeroIv);
+            //执行加密操作
+            byte[]encryptedData=cipher.doFinal(encryptString.getBytes());
+            return Base64.encodeToString(encryptedData,0);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String decryptDES(String decryptString,String decryptKey){
+
+        try {
+            //先使用Base64解密
+            byte[]byteMi=Base64.decode(decryptString,0);
+            //实例化IvParameterSpec对象使用指定的初始化向量
+            IvParameterSpec zeroIv=new IvParameterSpec(iv);
+            //实例化SecretKeySpec，根据传入的密钥获得字节数组来构造SecretKeySpec,
+            SecretKeySpec key=new SecretKeySpec(decryptKey.getBytes(),"DES");
+            //创建密码器
+            Cipher cipher=Cipher.getInstance("DES/CBC/PKCS5Padding");
+            //用密钥初始化Cipher对象,上面是加密，这是解密模式
+            cipher.init(Cipher.DECRYPT_MODE,key,zeroIv);
+            //获取解密后的数据
+            byte [] decryptedData=cipher.doFinal(byteMi);
+            return new String(decryptedData);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i("test", "get e:" + e.toString());
+            return null;
+        }
+    }
+
     /**
      * DES绠楁硶锛屽姞瀵�
      *

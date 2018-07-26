@@ -105,7 +105,6 @@ public class HttpMgr {
 				builder.append(line);
 			}
 			String rtnJsonStr = builder.toString();
-			checkLogin(rtnJsonStr);
 			return new JSONObject(rtnJsonStr);
 		} catch (HttpHostConnectException e) {
 			e.printStackTrace();
@@ -172,7 +171,6 @@ public class HttpMgr {
 				builder.append(line);
 			}
 			String rtnJsonStr = builder.toString();
-			checkLogin(rtnJsonStr);
 			return new JSONObject(rtnJsonStr);
 		} catch (HttpHostConnectException e) {
 			e.printStackTrace();
@@ -281,7 +279,6 @@ public class HttpMgr {
 				builder.append(line);
 			}
 			String rtnJsonStr = builder.toString();
-			checkLogin(rtnJsonStr);
 			return new JSONObject(rtnJsonStr);
 		} catch (HttpHostConnectException e) {
 			e.printStackTrace();
@@ -298,25 +295,6 @@ public class HttpMgr {
 		}
 	}
 
-	private void checkLogin(String obString)
-	{
-		try{
-			JSONObject ob = new JSONObject(obString);
-			if (ob.has("result")) {
-				if (ob.getInt("result") == -3) {
-					Log.d("httpMgr", "未登录");
-					context.startActivity(intent);
-				}
-			}else
-			{
-				Log.d("httpMgr", "没有result");
-			}	
-		}catch(JSONException e)
-		{
-			
-		}
-		
-	}
 	public boolean isNetworkAvailable() {
 		NetworkInfo activeNetworkInfo = connectivityManager
 				.getActiveNetworkInfo();

@@ -11,10 +11,14 @@ import android.widget.TextView;
 
 import com.meishipintu.fucaiShopNew.Cookies;
 import com.meishipintu.fucaiShopNew.R;
+import com.meishipintu.fucaiShopNew.custom.CustomChooseDialog;
+import com.meishipintu.fucaiShopNew.utils.MyDialogUtil;
 import com.meishipintu.fucaiShopNew.views.ActCouponQuery;
 import com.meishipintu.fucaiShopNew.views.ActSetting;
 import com.meishipintu.fucaiShopNew.views.DebetListActivity;
 import com.meishipintu.fucaiShopNew.views.MainActivity;
+import com.meishipintu.fucaiShopNew.views.MyWaiterActivity;
+import com.meishipintu.fucaiShopNew.views.WebActivity;
 
 
 public class D0_MineFrag extends Fragment {
@@ -31,8 +35,15 @@ public class D0_MineFrag extends Fragment {
 		TextView shop_name= view.findViewById(R.id.shop_name);
 		shop_name.setText(Cookies.getShopName());
 		TextView tel= view.findViewById(R.id.tel);
+		TextView waiterName = view.findViewById(R.id.tv_waiter);
 		tel.setText(Cookies.getShopTel());
+		if (Cookies.isMaster()) {
+			waiterName.setVisibility(View.GONE);
+		} else {
+			waiterName.setText(Cookies.getNickName());
+		}
 		view.findViewById(R.id.rl_coupon).setOnClickListener(ll);
+		view.findViewById(R.id.rl_my_waiter).setOnClickListener(ll);
 		view.findViewById(R.id.rl_setting).setOnClickListener(ll);
 		view.findViewById(R.id.rl_logout).setOnClickListener(ll);
 		view.findViewById(R.id.rl_recommendation).setOnClickListener(ll);
@@ -59,12 +70,24 @@ public class D0_MineFrag extends Fragment {
 					getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
 					break;
 				case R.id.rl_setting:
-					intent.setClass(getActivity(), ActSetting.class);
+//					intent.setClass(getActivity(), ActSetting.class);
+					intent.setClass(getActivity(), WebActivity.class);
 					startActivity(intent);
 					getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
 					break;
 				case R.id.rl_logout:
-					((MainActivity)getActivity()).showDialogQuit();
+					((MainActivity)getActivity()).showDialogQuit(1);
+					break;
+				case R.id.rl_my_waiter:
+					if (Cookies.isMaster()) {
+						intent.setClass(getActivity(), MyWaiterActivity.class);
+						startActivity(intent);
+						getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
+					} else {
+						//弹窗提示
+						CustomChooseDialog dialog = new CustomChooseDialog(getActivity(), R.style.CustomDialog, 1);
+						dialog.show();
+					}
 					break;
 				default:
 					break;

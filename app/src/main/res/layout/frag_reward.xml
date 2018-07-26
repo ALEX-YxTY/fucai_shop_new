@@ -191,7 +191,6 @@
                 android:layout_width="0dp"
                 android:layout_weight="2"
                 android:gravity="right|center_vertical"
-                android:text="搜索"
                 android:textSize="12sp"
                 android:textColor="@color/bg_gray2"
                 android:layout_height="match_parent"
@@ -400,9 +399,14 @@
 
     <View
         android:id="@+id/back"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#6021242a"/>
+        android:background="#66000000"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/pic_wait"
+        android:layout_centerInParent="true"/>
 
 </RelativeLayout>

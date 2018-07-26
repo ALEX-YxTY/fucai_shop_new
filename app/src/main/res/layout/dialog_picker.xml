@@ -17,7 +17,7 @@
         android:textColor="@color/theme_orange"
         android:text="确定"/>
 
-    <com.milaifucai.assistant.views.CustomNumberPicker
+    <com.meishipintu.fucaiShopNew.custom.CustomNumberPicker
         android:id="@+id/np_first"
         android:theme="@android:style/Theme.Holo.Light.NoActionBar"
         android:layout_width="match_parent"

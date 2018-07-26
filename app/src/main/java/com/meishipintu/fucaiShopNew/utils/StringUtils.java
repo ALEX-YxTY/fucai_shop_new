@@ -13,6 +13,19 @@ public class StringUtils {
         return s == null || "".equals(s.trim().replace(" ", ""));
     }
 
+    public static boolean isNullOrEmpty(String[] s) {
+        if (s == null || s.length == 0) {
+            return true;
+        }else{
+            for (String index : s) {
+                if (isNullOrEmpty(index)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
     public static String NullToEmpty(String s) {
         return s == null ? "无" : s;
     }
@@ -98,6 +111,11 @@ public class StringUtils {
     public static String getMoileHid(String mobile) {
 
         return mobile.substring(0, 2) + "****" + mobile.substring(7);
+    }
+
+    public static String getCouponHide(String sn) {
+
+        return sn.substring(0, 6) + "*****" + sn.substring(11);
     }
 
     //电话号码转换为 153 **** 1523 形式

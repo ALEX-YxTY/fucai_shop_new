@@ -130,6 +130,32 @@
             android:paddingTop="9dp"
             android:paddingBottom="9dp"
             android:paddingLeft="13dp"
+            android:paddingRight="10dp"
+            android:id="@+id/rl_num"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="@color/tv_gray3"
+                android:text="购买数量"/>
+            <TextView
+                android:id="@+id/tv_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textSize="13sp"
+                android:textColor="@color/tv_black4"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="9dp"
+            android:paddingBottom="9dp"
+            android:paddingLeft="13dp"
             android:paddingRight="10dp">
 
             <TextView
@@ -157,6 +183,7 @@
             android:paddingRight="10dp">
 
             <TextView
+                android:id="@+id/tv_name1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
@@ -178,6 +205,36 @@
             android:paddingTop="9dp"
             android:paddingBottom="9dp"
             android:paddingLeft="13dp"
+            android:paddingRight="10dp"
+            android:id="@+id/rl_address"
+            android:visibility="gone"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="@color/tv_gray3"
+                android:text="收货地址"/>
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textSize="13sp"
+                android:maxWidth="230dp"
+                android:gravity="right"
+                android:textColor="@color/tv_black4"
+                android:text=""/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="9dp"
+            android:paddingBottom="9dp"
+            android:paddingLeft="13dp"
             android:paddingRight="10dp">
 
             <TextView
@@ -186,16 +243,19 @@
                 android:textSize="13sp"
                 android:textColor="@color/tv_gray3"
                 android:text="商品说明"/>
+
             <TextView
                 android:id="@+id/tv_good_name"
                 android:layout_width="wrap_content"
-                android:maxWidth="230dp"
-                android:gravity="right"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
-                android:textSize="13sp"
+                android:gravity="right"
+                android:maxWidth="230dp"
+                android:text="江苏电信流量500M 全国通用 全国充流量叠加包加油包"
                 android:textColor="@color/tv_black4"
-                android:text="江苏电信流量500M 全国通用 全国充流量叠加包加油包"/>
+                android:textSize="13sp" />
+
         </RelativeLayout>
 
 

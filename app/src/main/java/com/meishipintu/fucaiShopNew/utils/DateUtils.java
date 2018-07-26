@@ -54,13 +54,23 @@ public class DateUtils {
         return format;
     }
 
+    //显示时间格式为yyy-MM-dd
+    public static String formart2_short(String timeStamp) {
+        if (timeStamp == null) {
+            return "";
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String format = simpleDateFormat.format(new Date(Long.parseLong(timeStamp)*1000));
+        return format;
+    }
+
     //显示时间格式为MM-dd HH:mm:ss
     public static String formart3(String timeStamp) {
         if (timeStamp == null) {
             return "";
         }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd HH:mm:ss");
-        String format = simpleDateFormat.format(new Date(Long.parseLong(timeStamp)));
+        String format = simpleDateFormat.format(new Date(Long.parseLong(timeStamp)*1000));
         return format;
     }
 
